@@ -361,6 +361,7 @@ createApp({
         try { return localStorage.getItem('samx_staff_chart_type') || 'bar'; } catch(e) { return 'bar'; }
       })(),
       _chartPluginsRegistered: false,
+      _resizeListenerAttached: false,   // ⭐ v23.12-FIX: منع تراكم listeners
 
       // ⭐ v23.2: خيارات مشاركة بطاقة اليوم
       shareOptions: {
@@ -1749,11 +1750,19 @@ createApp({
       if (metaTheme) metaTheme.setAttribute('content', c.primary);
       // ⭐ v23.3: تحديث الرسوم عند تغيير اللون
       nextTick(() => this.refreshCharts());
-      // ⭐ v23.9-FIX#4: عند تغيير حجم النافذة/الشاشة، أعد قياس كل المخططات
-      window.addEventListener('resize', () => {
-        [this.staffChartInstance, this.monthlyChartInstance, this.trendChartInstance, this.yoyChartInstance]
-          .forEach(inst => { if (inst && typeof inst.resize === 'function') { try { inst.resize(); } catch(e) {} } });
-      });
+            // ⭐ v23.12-FIX: أضف resize listener مرة واحدة فقط (منع تسريب الذاكرة)
+      if (!this._resizeListenerAttached) {
+        this._resizeListenerAttached = true;
+        window.addEventListener('resize', () => {
+          [this.staffChartInstance, this.monthlyChartInstance,
+           this.trendChartInstance, this.yoyChartInstance]
+            .forEach(inst => {
+              if (inst && typeof inst.resize === 'function') {
+                try { inst.resize(); } catch(e) {}
+              }
+            });
+        });
+      }
     },
     applyThemeMode() {
       const mode = this.settings.themeMode;
