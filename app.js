@@ -3794,47 +3794,6 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
         try { wrapper.remove(); } catch (e) {}
       }
     },
-    // 🧪 دالة تشخيص مؤقتة — v23.11.8
-    async __diagnosticTest() {
-      const steps = [];
-      const log = (s) => { steps.push(s); console.log('[DIAG]', s); };
-
-      try {
-        log('1. Button clicked ✅');
-
-        // فحص htmlToImage
-        log('2. window.htmlToImage = ' + (typeof window.htmlToImage));
-
-        // فحص ref
-        log('3. $refs.dailySummaryCard = ' + (this.$refs.dailySummaryCard ? 'exists' : 'NULL'));
-
-        // فحص البيانات
-        log('4. selectedBranch = ' + (this.selectedBranch ? this.selectedBranch.name : 'NULL'));
-
-        // فحص shareGenerating
-        log('5. shareGenerating = ' + this.shareGenerating);
-
-        // محاولة توليد
-        log('6. Attempting generateSummaryImage...');
-        const canvas = await this.generateSummaryImage();
-        log('7. canvas = ' + (canvas ? `${canvas.width}x${canvas.height}` : 'NULL'));
-
-        if (!canvas) {
-          alert('❌ فشل عند:\n' + steps.join('\n'));
-          return;
-        }
-
-        // محاولة blob
-        log('8. Converting to blob...');
-        const blob = await this.canvasToBlob(canvas);
-        log('9. blob = ' + (blob ? `${blob.size} bytes` : 'NULL'));
-
-        alert('✅ نجح كل شيء!\n\n' + steps.join('\n'));
-      } catch (e) {
-        log('❌ ERROR: ' + e.message);
-        alert('❌ خطأ:\n\n' + steps.join('\n') + '\n\nStack:\n' + (e.stack || ''));
-      }
-    },
        // ⭐ v23.11.8: توليد الصورة (blob + dataUrl)
     async _getOrCreateImageBlob() {
       if (this._cachedShareBlob && this._cachedShareDataUrl) {
@@ -3863,51 +3822,6 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
       return { blob, dataUrl };
     },
 
-    // ⭐ v23.11.8: توليد الصورة + فتح Modal المعاينة
-    async _generateAndPreview() {
-      if (this.shareGenerating) {
-        console.log('[Share] already generating');
-        return;
-      }
-      this.shareGenerating = true;
-      this.vibrate(15);
-
-      // ⏱️ safety timeout — يمنع تعليق الزر
-      const safetyTimer = setTimeout(() => {
-        if (this.shareGenerating) {
-          console.warn('[Share] safety timeout — resetting');
-          this.shareGenerating = false;
-          this.showToast('⚠️ استغرق التوليد وقتاً طويلاً', 'warning');
-        }
-      }, 15000);
-
-      try {
-        this.showToast('⏳ جارٍ توليد الصورة...', 'success');
-        const result = await this._getOrCreateImageBlob();
-
-        if (!result || !result.blob) {
-          this.showToast('❌ فشل توليد الصورة', 'error');
-          return;
-        }
-
-        const branch = this.selectedBranch;
-        const filename = `SAMX_${branch ? branch.code : 'Report'}_${this.selectedDate}.png`;
-
-        // افتح Modal المعاينة
-        this.previewImageUrl = result.dataUrl;
-        this.previewImageBlob = result.blob;
-        this.previewImageFilename = filename;
-        this.showImagePreview = true;
-
-        this.vibrate([10, 30, 10]);
-      } catch (e) {
-        console.error('[Share] generate failed:', e);
-        this.showToast('❌ فشل التوليد: ' + (e.message || ''), 'error');
-      } finally {
-        clearTimeout(safetyTimer);
-        this.shareGenerating = false;
-      }
-    },
         // ⭐ v23.12-NEW: توليد + تنزيل مباشر (بدون Modal معاينة)
     async generateAndDownload() {
       if (this.shareGenerating) {
