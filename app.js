@@ -1476,7 +1476,19 @@ createApp({
         this.persistUsers();
         console.log('[Seed] ✅ Applied', seedData.users.length, 'users');
       }
-      this.persist();
+            // ⭐ v23.12-FIX: اكتب مباشرة لـ localStorage (persist() محجوبة قبل load)
+      try {
+        localStorage.setItem('samx_branches', JSON.stringify(this.branches || []));
+        localStorage.setItem('samx_staff', JSON.stringify(this.staff || []));
+        localStorage.setItem('samx_monthlyTargets', JSON.stringify(this.monthlyTargets || {}));
+        localStorage.setItem('samx_monthlyHeroesTargets', JSON.stringify(this.monthlyHeroesTargets || {}));
+        if (seedData.branding) {
+          localStorage.setItem('samx_branding', JSON.stringify(this.branding));
+        }
+        console.log('[Seed] ✅ Data persisted directly to localStorage');
+      } catch (e) {
+        console.error('[Seed] ❌ Direct persist failed:', e);
+      }
     },
     // تطبيق تحديث Seed مع الحفاظ على البيانات اليومية
     applySeedUpdate() {
