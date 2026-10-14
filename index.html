@@ -2221,60 +2221,34 @@
               </div>
             </div>
 
-                        <!-- ⭐ v23.11.7: أزرار المشاركة المباشرة -->
-            <div class="share-direct-title">📤 مشاركة مباشرة</div>
+<!-- ⭐ v23.12-NEW: 3 أزرار فقط — تحميل، نسخ، مشاركة -->
+<div class="share-direct-title">📤 مشاركة سريعة</div>
 
-            <div class="share-direct-grid">
+<div class="share-direct-grid" style="grid-template-columns: repeat(3, 1fr);">
 
-              <!-- 🧪 زر اختبار مؤقت -->
-              <button class="share-direct-btn"
-                      @click="__diagnosticTest()"
-                      style="background:linear-gradient(135deg,#ef4444,#f87171);border-color:#ef4444;color:#fff;grid-column:1/-1;">
-                <span class="share-direct-icon">🧪</span>
-                <span class="share-direct-label">اختبار التشخيص (اضغطني)</span>
-              </button>
-                           <button class="share-direct-btn share-direct-whatsapp"
-                      @click="_generateAndPreview()"
-                      :disabled="shareGenerating">
-                <span class="share-direct-icon">💬</span>
-                <span class="share-direct-label">واتساب</span>
-              </button>
+  <button class="share-direct-btn share-direct-download"
+          @click="generateAndDownload()"
+          :disabled="shareGenerating">
+    <span class="share-direct-icon">{{ shareGenerating ? '⏳' : '📥' }}</span>
+    <span class="share-direct-label">{{ shareGenerating ? 'جاري التوليد...' : 'تحميل الصورة' }}</span>
+  </button>
 
-              <button class="share-direct-btn share-direct-telegram"
-                      @click="shareImageDirect('telegram')"
-                      :disabled="shareGenerating">
-                <span class="share-direct-icon">✈️</span>
-                <span class="share-direct-label">تيليجرام</span>
-              </button>
+  <button class="share-direct-btn share-direct-copy"
+          @click="copySummaryText"
+          :disabled="shareGenerating">
+    <span class="share-direct-icon">📋</span>
+    <span class="share-direct-label">نسخ النص</span>
+  </button>
 
-              <button class="share-direct-btn share-direct-twitter"
-                      @click="shareImageDirect('twitter')"
-                      :disabled="shareGenerating">
-                <span class="share-direct-icon">🐦</span>
-                <span class="share-direct-label">X</span>
-              </button>
+  <button class="share-direct-btn share-direct-share"
+          @click="shareAsImage()"
+          :disabled="shareGenerating"
+          style="background:linear-gradient(135deg,rgba(212,168,75,.25),rgba(212,168,75,.1));border-color:rgba(212,168,75,.6);">
+    <span class="share-direct-icon">{{ shareGenerating ? '⏳' : '📤' }}</span>
+    <span class="share-direct-label">{{ shareGenerating ? 'جاري التوليد...' : 'مشاركة' }}</span>
+  </button>
 
-              <button class="share-direct-btn share-direct-more"
-                      @click="shareImageDirect('native')"
-                      :disabled="shareGenerating">
-                <span class="share-direct-icon">📤</span>
-                <span class="share-direct-label">المزيد</span>
-              </button>
-
-              <button class="share-direct-btn share-direct-download"
-                      @click="downloadSummaryImage"
-                      :disabled="shareGenerating">
-                <span class="share-direct-icon">📥</span>
-                <span class="share-direct-label">تحميل</span>
-              </button>
-
-              <button class="share-direct-btn share-direct-copy"
-                      @click="copySummaryText"
-                      :disabled="shareGenerating">
-                <span class="share-direct-icon">📋</span>
-                <span class="share-direct-label">نسخ النص</span>
-              </button>
-            </div>
+</div>
 
             <p style="text-align:center;font-size:10px;color:#64748b;margin:14px 0 0;line-height:1.6;">
               💡 في الأجهزة التي لا تدعم المشاركة المباشرة → سيتم تنزيل الصورة تلقائياً
