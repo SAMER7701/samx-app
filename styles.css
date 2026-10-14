@@ -4090,6 +4090,16 @@ html.light .image-preview-btn {
   opacity: 0.9;
   margin-inline-start: 2px;
 }
+
+/* ⭐ v23.12: رمز الريال في الأرقام الكبيرة */
+.sar-symbol-large {
+  font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 0.55em;
+  vertical-align: middle;
+  opacity: 0.9;
+  margin-inline-start: 2px;
+}
 /* ========================================================================
    نهاية styles.css
    ======================================================================== */
