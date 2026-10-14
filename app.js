@@ -4677,8 +4677,10 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
               ws[cellAddr].s = {
                 font: { sz: 11, color: { rgb: '0B1220' }, name: 'Calibri' },
                 alignment: { horizontal: 'center', vertical: 'center' },
-                fill: { fgColor            } else if (R >= 4 && R <= 8) {
-              ws[cellAddr].s = {
+                fill: { fgColor: { rgb: 'F3F4F6' } },
+              };
+            } else if (R >= 4 && R <= 8) {
+            ws[cellAddr].s = {
                 font: { bold: true, sz: 11, color: { rgb: '0B1220' }, name: 'Calibri' },
                 alignment: { horizontal: 'center', vertical: 'center' },
                 fill: { fgColor: { rgb: R % 2 === 0 ? 'FEF9E7' : 'FFFFFF' } },
