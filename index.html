@@ -1021,7 +1021,7 @@
           </div>
           <div class="card" style="border-radius:16px;padding:16px;border-color:rgba(212,168,75,.4);">
             <p style="font-size:11px;color:#e6c074;margin:0 0 6px;">{{ t('admin.kpi.totalSales') }}</p>
-            <p style="font-size:26px;font-weight:900;color:#fff;margin:0;">{{ formatNum(adminTotalSales) }}</p>
+            <p style="font-size:26px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(adminTotalSales) }}</p>
           </div>
           <div class="card" style="border-radius:16px;padding:16px;border-color:rgba(16,185,129,.4);">
             <p style="font-size:11px;color:#34d399;margin:0 0 6px;">{{ t('admin.kpi.achieved') }}</p>
@@ -1048,7 +1048,7 @@
                 <div><p style="font-size:10px;color:#60a5fa;margin:0;">{{ t('admin.branch.base') }}</p><p style="font-size:15px;font-weight:900;margin:2px 0 0;" :style="{color: b.basePct>=100 ? '#34d399' : b.basePct>=70 ? '#fbbf24' : b.basePct>0 ? '#fb7185' : '#64748b'}">{{ b.basePct.toFixed(0) }}%</p></div>
                 <div><p style="font-size:10px;color:#e6c074;margin:0;">{{ t('admin.branch.heroes') }}</p><p style="font-size:15px;font-weight:900;margin:2px 0 0;" :style="{color: b.heroesPct>=100 ? '#34d399' : b.heroesPct>=70 ? '#fbbf24' : b.heroesPct>0 ? '#fb7185' : '#64748b'}">{{ b.heroesPct.toFixed(0) }}%</p></div>
               </div>
-              <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">💰 {{ formatNum(b.sales) }} / {{ formatNum(b.baseTarget) }}</p>
+              <p style="font-size:11px;color:#94a3b8;margin:8px 0 0;">💰 {{ formatSAR(b.sales) }} / {{ formatSAR(b.baseTarget) }}</p>
             </div>
           </div>
         </div>
@@ -1311,11 +1311,11 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
             <div class="card" style="border-radius:16px;padding:16px;">
               <p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('yoy.summary.totalCurrent', '', { year: yoyYear }) }}</p>
-              <p style="font-size:22px;font-weight:900;color:#fff;margin:0;">{{ formatNum(yoyTotalCurrent) }}</p>
+              <p style="font-size:22px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(yoyTotalCurrent) }}</p>
             </div>
             <div class="card" style="border-radius:16px;padding:16px;">
               <p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('yoy.summary.totalPrevious', '', { year: yoyYear - 1 }) }}</p>
-              <p style="font-size:22px;font-weight:900;color:#fff;margin:0;">{{ formatNum(yoyTotalPrevious) }}</p>
+              <p style="font-size:22px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(yoyTotalPrevious) }}</p>
             </div>
             <div class="card" style="border-radius:16px;padding:16px;" :style="{borderColor: yoyGrowth >= 0 ? 'rgba(16,185,129,.4)' : 'rgba(244,63,94,.4)'}">
               <p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('yoy.summary.growth') }}</p>
@@ -1343,9 +1343,9 @@
                 <tbody>
                   <tr v-for="m in yoyMonthlyComparison" :key="m.monthNum" style="border-bottom:1px solid rgba(36,51,86,.5);">
                     <td style="padding:8px;font-weight:600;color:#fff;font-size:12px;">{{ m.monthName }}</td>
-                    <td style="padding:8px;color:#fff;">{{ formatNum(m.current) }}</td>
-                    <td style="padding:8px;color:#94a3b8;">{{ formatNum(m.previous) }}</td>
-                    <td style="padding:8px;font-weight:700;" :style="{color: m.diff >= 0 ? '#34d399' : '#fb7185'}">{{ m.diff >= 0 ? '+' : '' }}{{ formatNum(m.diff) }}</td>
+                    <td style="padding:8px;color:#fff;">{{ formatSAR(m.current) }}</td>
+                    <td style="padding:8px;color:#94a3b8;">{{ formatSAR(m.previous) }}</td>
+                    <td style="padding:8px;font-weight:700;" :style="{color: m.diff >= 0 ? '#34d399' : '#fb7185'}">{{ m.diff >= 0 ? '+' : '' }}{{ formatSAR(m.diff) }}</td>
                     <td style="padding:8px;">
                       <span :style="{fontSize:'11px',fontWeight:'bold',padding:'3px 8px',borderRadius:'5px', background: m.growth >= 0 ? 'rgba(16,185,129,.2)' : m.previous > 0 ? 'rgba(244,63,94,.2)' : 'rgba(36,51,86,.5)', color: m.growth >= 0 ? '#6ee7b7' : m.previous > 0 ? '#fda4af' : '#94a3b8'}">
                         {{ m.previous > 0 ? (m.growth >= 0 ? '+' : '') + m.growth.toFixed(1) + '%' : '—' }}
@@ -1396,9 +1396,9 @@
 
         <template v-else>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-            <div class="card" style="border-radius:16px;padding:16px;"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.total') }}</p><p style="font-size:22px;font-weight:900;color:#fff;margin:0;">{{ formatNum(analyticsSummary.totalSales) }}</p></div>
-            <div class="card" style="border-radius:16px;padding:16px;"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.avg') }}</p><p style="font-size:22px;font-weight:900;color:#60a5fa;margin:0;">{{ formatNum(analyticsSummary.avgSales) }}</p></div>
-            <div class="card" style="border-radius:16px;padding:16px;border-color:rgba(16,185,129,.4);"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.best') }}</p><p style="font-size:22px;font-weight:900;color:#34d399;margin:0;">{{ formatNum(analyticsSummary.bestSales) }}</p><p style="font-size:10px;color:#94a3b8;margin:4px 0 0;">{{ analyticsSummary.bestDate || '—' }}</p></div>
+            <div class="card" style="border-radius:16px;padding:16px;"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.total') }}</p><p style="font-size:22px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(analyticsSummary.totalSales) }}</p></div>
+            <div class="card" style="border-radius:16px;padding:16px;"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.avg') }}</p><p style="font-size:22px;font-weight:900;color:#60a5fa;margin:0;">{{ formatSAR(analyticsSummary.avgSales) }}</p></div>
+            <div class="card" style="border-radius:16px;padding:16px;border-color:rgba(16,185,129,.4);"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.best') }}</p><p style="font-size:22px;font-weight:900;color:#34d399;margin:0;">{{ formatSAR(analyticsSummary.bestSales) }}</p><p style="font-size:10px;color:#94a3b8;margin:4px 0 0;">{{ analyticsSummary.bestDate || '—' }}</p></div>
             <div class="card" style="border-radius:16px;padding:16px;"><p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('analytics.summary.days') }}</p><p style="font-size:22px;font-weight:900;color:#e6c074;margin:0;">{{ analyticsSummary.daysCount }}</p></div>
           </div>
 
@@ -1441,7 +1441,7 @@
               <div :class="idx===0 ? 'btn-gold' : ''" :style="{width:'44px',height:'44px',borderRadius:'12px',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:900,fontSize:'18px',flexShrink:0, background: idx===0 ? '' : idx===1 ? 'linear-gradient(135deg,#94a3b8,#cbd5e1)' : idx===2 ? 'linear-gradient(135deg,#b45309,#d97706)' : '#1a2540', color: idx<=2 ? '#0b1220' : '#cbd5e1'}">{{ idx+1 }}</div>
               <div style="flex:1;min-width:0;">
                 <p style="font-weight:700;color:#fff;margin:0;font-size:14px;">{{ row.name }}</p>
-                <p style="font-size:11px;color:#94a3b8;margin:2px 0 0;">{{ formatNum(row.sales) }} • 🎯 {{ formatNum(row.baseTarget) }} • 🏆 {{ formatNum(row.heroesTarget) }}</p>
+                <p style="font-size:11px;color:#94a3b8;margin:2px 0 0;">{{ formatSAR(row.sales) }} • 🎯 {{ formatSAR(row.baseTarget) }} • 🏆 {{ formatSAR(row.heroesTarget) }}</p>
                 <div class="progress-bar" style="height:5px;margin-top:6px;"><div class="progress-bar-fill" :style="{width: Math.min(row.basePct,100)+'%', background: row.basePct>=100 ? '#10b981' : row.basePct>=70 ? '#f59e0b' : '#ef4444'}"></div></div>
               </div>
               <div style="text-align:left;flex-shrink:0;">
