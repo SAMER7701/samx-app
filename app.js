@@ -3908,6 +3908,91 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
         this.shareGenerating = false;
       }
     },
+        // ⭐ v23.12-NEW: توليد + تنزيل مباشر (بدون Modal معاينة)
+    async generateAndDownload() {
+      if (this.shareGenerating) {
+        console.log('[Download] already generating');
+        return;
+      }
+      this.shareGenerating = true;
+      this.vibrate(15);
+
+      const safetyTimer = setTimeout(() => {
+        if (this.shareGenerating) {
+          console.warn('[Download] safety timeout');
+          this.shareGenerating = false;
+          this.showToast('⚠️ استغرق التوليد وقتاً طويلاً', 'warning');
+        }
+      }, 15000);
+
+      try {
+        this.showToast('⏳ جارٍ توليد الصورة...', 'success');
+        const result = await this._getOrCreateImageBlob();
+
+        if (!result || !result.blob) {
+          this.showToast('❌ فشل توليد الصورة', 'error');
+          return;
+        }
+
+        const branch = this.selectedBranch;
+        const filename = `SAMX_${branch ? branch.code : 'Report'}_${this.selectedDate}.png`;
+
+        // ─── المحاولة 1: File System Access API (Chrome Desktop) ───
+        if (window.showSaveFilePicker) {
+          try {
+            const handle = await window.showSaveFilePicker({
+              suggestedName: filename,
+              types: [{ description: 'PNG Image', accept: { 'image/png': ['.png'] } }],
+            });
+            const writable = await handle.createWritable();
+            await writable.write(result.blob);
+            await writable.close();
+            this.showToast('✅ تم حفظ الصورة', 'success');
+            this.vibrate([10, 30, 10]);
+            return;
+          } catch (e) {
+            if (e.name === 'AbortError') return; // المستخدم ألغى
+            console.warn('[Download] SaveFilePicker failed, falling back:', e);
+          }
+        }
+
+        // ─── المحاولة 2: data URL (يعمل جيداً على Android Chrome) ───
+        if (result.dataUrl && result.dataUrl.startsWith('data:')) {
+          const a = document.createElement('a');
+          a.href = result.dataUrl;
+          a.download = filename;
+          a.style.cssText = 'position:fixed;left:-9999px;top:-9999px;';
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => { try { document.body.removeChild(a); } catch(e) {} }, 2000);
+          this.showToast('✅ تم التنزيل — ابحث في مجلد Downloads', 'success');
+          this.vibrate([10, 30, 10]);
+          return;
+        }
+
+        // ─── المحاولة 3: blob URL (fallback أخير) ───
+        const url = URL.createObjectURL(result.blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.style.cssText = 'position:fixed;left:-9999px;top:-9999px;';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          try { document.body.removeChild(a); } catch(e) {}
+          URL.revokeObjectURL(url);
+        }, 3000);
+        this.showToast('✅ تم التنزيل — ابحث في مجلد Downloads', 'success');
+        this.vibrate([10, 30, 10]);
+
+      } catch (e) {
+        console.error('[Download] generateAndDownload failed:', e);
+        this.showToast('❌ فشل التنزيل: ' + (e.message || ''), 'error');
+      } finally {
+        clearTimeout(safetyTimer);
+        this.shareGenerating = false;
+      }
+    },
 
     // ⭐ v23.11.8: مشاركة مباشرة (من داخل Modal المعاينة)
     async shareImageDirect(target = 'native') {
