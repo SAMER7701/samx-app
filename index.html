@@ -1102,7 +1102,7 @@
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;">
             <div class="card" style="border-radius:16px;padding:16px;">
               <p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('monthly.summary.totalSales') }}</p>
-              <p style="font-size:24px;font-weight:900;color:#fff;margin:0;">{{ formatNum(monthlySummary.totalSales) }}</p>
+              <p style="font-size:24px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(monthlySummary.totalSales) }}</p>
             </div>
             <div class="card" style="border-radius:16px;padding:16px;border-color:rgba(59,130,246,.4);">
               <p style="font-size:11px;color:#60a5fa;margin:0 0 6px;font-weight:bold;">{{ t('monthly.summary.basePct') }}</p>
@@ -1153,15 +1153,15 @@
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px;">
                 <div style="background:rgba(15,23,42,.5);border-radius:10px;padding:12px;text-align:center;">
                   <p style="font-size:10px;color:#94a3b8;margin:0 0 6px;">{{ t('monthly.forecast.currentSales') }}</p>
-                  <p style="font-size:20px;font-weight:900;color:#fff;margin:0;">{{ formatNum(monthlyForecast.totalSales) }}</p>
+                  <p style="font-size:20px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(monthlyForecast.totalSales) }}</p>
                 </div>
                 <div style="background:linear-gradient(135deg,rgba(212,168,75,.15),transparent);border:1px solid rgba(212,168,75,.4);border-radius:10px;padding:12px;text-align:center;">
                   <p style="font-size:10px;color:#e6c074;margin:0 0 6px;">{{ t('monthly.forecast.expected') }}</p>
-                  <p style="font-size:20px;font-weight:900;color:#fff;margin:0;">{{ formatNum(monthlyForecast.forecastSales) }}</p>
+                  <p style="font-size:20px;font-weight:900;color:#fff;margin:0;">{{ formatSAR(monthlyForecast.forecastSales) }}</p>
                 </div>
                 <div style="background:rgba(15,23,42,.5);border-radius:10px;padding:12px;text-align:center;">
                   <p style="font-size:10px;color:#94a3b8;margin:0 0 6px;">{{ t('monthly.forecast.target') }}</p>
-                  <p style="font-size:20px;font-weight:900;color:#60a5fa;margin:0;">{{ formatNum(monthlyForecast.target) }}</p>
+                  <p style="font-size:20px;font-weight:900;color:#60a5fa;margin:0;">{{ formatSAR(monthlyForecast.target) }}</p>
                 </div>
                 <div :style="{background: monthlyForecast.statusBg, border: '1px solid ' + monthlyForecast.statusBorder, borderRadius: '10px', padding: '12px', textAlign: 'center'}">
                   <p :style="{fontSize:'10px',color: monthlyForecast.statusColor, margin:'0 0 6px', fontWeight:'700'}">{{ t('monthly.forecast.expectedPct') }}</p>
@@ -1171,9 +1171,9 @@
 
               <div style="margin-bottom:14px;">
                 <div style="display:flex;justify-content:space-between;font-size:10px;color:#94a3b8;margin-bottom:6px;">
-                  <span>{{ t('monthly.forecast.currentLabel', '', { value: formatNum(monthlyForecast.totalSales) }) }}</span>
-                  <span>{{ t('monthly.forecast.expectedLabel', '', { value: formatNum(monthlyForecast.forecastSales) }) }}</span>
-                  <span>{{ t('monthly.forecast.targetLabel', '', { value: formatNum(monthlyForecast.target) }) }}</span>
+                  <span>{{ t('monthly.forecast.currentLabel', '', { value: formatSAR(monthlyForecast.totalSales) }) }}</span>
+                  <span>{{ t('monthly.forecast.expectedLabel', '', { value: formatSAR(monthlyForecast.forecastSales) }) }}</span>
+                  <span>{{ t('monthly.forecast.targetLabel', '', { value: formatSAR(monthlyForecast.target) }) }}</span>
                 </div>
                 <div style="position:relative;width:100%;height:14px;background:#0b1220;border-radius:999px;overflow:hidden;border:1px solid #243356;">
                   <div :style="{
@@ -1205,17 +1205,17 @@
                 </div>
                 <div style="background:rgba(15,23,42,.5);border-radius:10px;padding:10px 12px;">
                   <p style="font-size:10px;color:#94a3b8;margin:0 0 4px;">{{ t('monthly.forecast.avgDaily') }}</p>
-                  <p style="font-size:16px;font-weight:900;color:#34d399;margin:0;">{{ formatNum(monthlyForecast.avgDaily) }}</p>
+                  <p style="font-size:16px;font-weight:900;color:#34d399;margin:0;">{{ formatSAR(monthlyForecast.avgDaily) }}</p>
                   <p style="font-size:9px;color:#64748b;margin:4px 0 0;">{{ t('monthly.forecast.basedOnActiveDays', '', { count: monthlyForecast.activeDays }) }}</p>
                 </div>
                 <div v-if="!monthlyForecast.willAchieve && monthlyForecast.daysRemaining > 0" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:10px 12px;">
                   <p style="font-size:10px;color:#fcd34d;margin:0 0 4px;font-weight:700;">{{ t('monthly.forecast.requiredDaily') }}</p>
-                  <p style="font-size:16px;font-weight:900;color:#fcd34d;margin:0;">{{ formatNum(monthlyForecast.requiredDaily) }}</p>
+                  <p style="font-size:16px;font-weight:900;color:#fcd34d;margin:0;">{{ formatSAR(monthlyForecast.requiredDaily) }}</p>
                   <p style="font-size:9px;color:#94a3b8;margin:4px 0 0;">{{ t('monthly.forecast.forTarget') }}</p>
                 </div>
                 <div v-else-if="monthlyForecast.willAchieve" style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:10px;padding:10px 12px;">
                   <p style="font-size:10px;color:#6ee7b7;margin:0 0 4px;font-weight:700;">{{ t('monthly.forecast.expectedSurplus') }}</p>
-                  <p style="font-size:16px;font-weight:900;color:#6ee7b7;margin:0;">+{{ formatNum(monthlyForecast.forecastSales - monthlyForecast.target) }}</p>
+                  <p style="font-size:16px;font-weight:900;color:#6ee7b7;margin:0;">+{{ formatSAR(monthlyForecast.forecastSales - monthlyForecast.target) }}</p>
                   <p style="font-size:9px;color:#94a3b8;margin:4px 0 0;">{{ t('monthly.forecast.aboveTarget') }}</p>
                 </div>
               </div>
@@ -1260,10 +1260,10 @@
                     <td style="padding:8px;font-size:12px;color:#94a3b8;">{{ d.dayName }}</td>
                     <td style="padding:8px;"><input type="number" min="0" inputmode="numeric" :value="d.baseTarget === 0 ? '' : d.baseTarget" @focus="$event.target.select()" @input.stop="updateDayTarget(d.date, 'baseTarget', $event.target.value)" @click.stop :disabled="!canEditTarget" class="target-input" style="width:80px;" placeholder="0"></td>
                     <td style="padding:8px;"><input type="number" min="0" inputmode="numeric" :value="d.heroesTarget === 0 ? '' : d.heroesTarget" @focus="$event.target.select()" @input.stop="updateDayTarget(d.date, 'heroesTarget', $event.target.value)" @click.stop :disabled="!canEditTarget" class="target-input" style="width:80px;" placeholder="0"></td>
-                    <td style="padding:8px;font-weight:700;color:#fff;">{{ formatNum(d.sales) }}</td>
+                    <td style="padding:8px;font-weight:700;color:#fff;">{{ formatSAR(d.sales) }}</td>
                     <td style="padding:8px;"><span :style="{fontSize:'12px',fontWeight:'bold',padding:'3px 8px',borderRadius:'5px', background: d.basePct>=100 ? 'rgba(16,185,129,.2)' : d.basePct>=70 ? 'rgba(245,158,11,.2)' : d.basePct>0 ? 'rgba(244,63,94,.2)' : 'rgba(36,51,86,.5)', color: d.basePct>=100 ? '#6ee7b7' : d.basePct>=70 ? '#fcd34d' : d.basePct>0 ? '#fda4af' : '#94a3b8'}">{{ d.basePct.toFixed(0) }}%</span></td>
                     <td style="padding:8px;"><span :style="{fontSize:'12px',fontWeight:'bold',padding:'3px 8px',borderRadius:'5px', background: d.heroesPct>=100 ? 'rgba(16,185,129,.2)' : d.heroesPct>=70 ? 'rgba(245,158,11,.2)' : d.heroesPct>0 ? 'rgba(244,63,94,.2)' : 'rgba(36,51,86,.5)', color: d.heroesPct>=100 ? '#6ee7b7' : d.heroesPct>=70 ? '#fcd34d' : d.heroesPct>0 ? '#fda4af' : '#94a3b8'}">{{ d.heroesPct.toFixed(0) }}%</span></td>
-                    <td style="padding:8px;font-size:12px;color:#e6c074;font-weight:bold;">{{ formatNum(d.cumulative) }}</td>
+                    <td style="padding:8px;font-size:12px;color:#e6c074;font-weight:bold;">{{ formatSAR(d.cumulative) }}</td>
                   </tr>
                 </tbody>
               </table>
