@@ -3732,7 +3732,10 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
       const wrapper = document.createElement('div');
       wrapper.style.cssText = 'position:fixed;left:-99999px;top:0;pointer-events:none;z-index:-1;opacity:0;';
       const clone = originalEl.cloneNode(true);
-      clone.classList.add('is-horizontal');
+      // ⭐ v23.12: صورة عمودية — إزالة is-horizontal + تحديد عرض ثابت
+      clone.classList.remove('is-horizontal');
+      clone.style.width = '720px';
+      clone.style.maxWidth = '720px';
       clone.removeAttribute('id');
       // إزالة أي inline display:none من الأصل
       clone.style.display = '';
