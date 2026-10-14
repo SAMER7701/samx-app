@@ -2868,6 +2868,10 @@ this.settings = {
       n = Number(n) || 0;
       return n.toLocaleString('en-US', { maximumFractionDigits: 0 });
     },
+        // ⭐ v23.12: تنسيق العملة — رمز الريال السعودي الجديد U+20C1
+    formatSAR(amount) {
+      return this.formatNum(amount) + '\u00A0\u20C1';
+    },
     // ⭐ v23.2: دوال مساعدة لبطاقة الملخص
     summaryStatusIcon(pct) {
       if (pct >= 100) return '✅';
