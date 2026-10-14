@@ -4080,6 +4080,16 @@ html.light .image-preview-btn {
   .image-preview-btn { font-size: 11px; padding: 10px 6px; min-height: 62px; }
   .image-preview-btn span:first-child { font-size: 20px; }
 }
+
+/* ⭐ v23.12: رمز الريال في الأرقام الكبيرة */
+.sar-symbol-large {
+  font-family: 'Cairo', 'Tajawal', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 0.55em;
+  vertical-align: middle;
+  opacity: 0.9;
+  margin-inline-start: 2px;
+}
 /* ========================================================================
    نهاية styles.css
    ======================================================================== */
