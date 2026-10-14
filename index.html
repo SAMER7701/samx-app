@@ -839,21 +839,21 @@
               <p class="kpi-metric-label" style="color:#e6c074;">{{ t('kpi.atv.today') }}</p>
               <p class="kpi-metric-value" style="color:#fff;">{{ formatNum(branchATV) }}</p>
               <p class="kpi-metric-sub" style="color:#94a3b8;">{{ t('kpi.atv.unit') }}</p>
-              <p class="kpi-metric-hint" style="color:#64748b;">{{ formatNum(branchSales) }} ÷ {{ formatNum(branchInvoices) }}</p>
+              <p class="kpi-metric-hint" style="color:#64748b;">{{ formatSAR(branchSales) }} ÷ {{ formatNum(branchInvoices) }}</p>
             </div>
 
             <div class="kpi-hero-card" style="border:1px solid rgba(16,185,129,.4);">
               <p class="kpi-metric-label" style="color:#34d399;">{{ t('kpi.achieve.today') }}</p>
               <p class="kpi-metric-value" :style="{color: basePct>=100 ? '#34d399' : basePct>=70 ? '#fbbf24' : '#fb7185'}">{{ basePct.toFixed(1) }}%</p>
               <div class="progress-bar"><div class="progress-bar-fill" :style="{width: Math.min(basePct,100)+'%', background: basePct>=100 ? '#10b981' : basePct>=70 ? '#f59e0b' : '#ef4444'}"></div></div>
-              <p class="kpi-metric-hint" style="color:#94a3b8;margin-top:8px;">{{ formatNum(branchSales) }} / {{ formatNum(dayData.baseTarget) }}</p>
+              <p class="kpi-metric-hint" style="color:#94a3b8;margin-top:8px;">{{ formatSAR(branchSales) }} / {{ formatSAR(dayData.baseTarget) }}</p>
             </div>
 
             <div class="kpi-hero-card" style="border:1px solid rgba(212,168,75,.4);">
               <p class="kpi-metric-label" style="color:#e6c074;">{{ t('kpi.achieve.month') }}</p>
               <p class="kpi-metric-value" :style="{color: monthlySummary.basePct>=100 ? '#34d399' : monthlySummary.basePct>=70 ? '#fbbf24' : '#fb7185'}">{{ monthlySummary.basePct.toFixed(1) }}%</p>
               <div class="progress-bar"><div class="progress-bar-fill" :style="{width: Math.min(monthlySummary.basePct,100)+'%', background: monthlySummary.basePct>=100 ? '#10b981' : monthlySummary.basePct>=70 ? '#f59e0b' : '#ef4444'}"></div></div>
-              <p class="kpi-metric-hint" style="color:#94a3b8;margin-top:8px;">{{ formatNum(monthlySummary.totalSales) }} / {{ formatNum(monthlyBaseTarget) }}</p>
+              <p class="kpi-metric-hint" style="color:#94a3b8;margin-top:8px;">{{ formatSAR(monthlySummary.totalSales) }} / {{ formatSAR(monthlyBaseTarget) }}</p>
             </div>
           </div>
 
@@ -866,7 +866,7 @@
               </div>
               <div class="kpi-stat" style="border-color:rgba(212,168,75,.3);">
                 <p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('kpi.month.atv') }}</p>
-                <p style="font-size:26px;font-weight:900;color:#e6c074;margin:0;">{{ formatNum(kpiMonthlySummary.atv) }}</p>
+                <p style="font-size:26px;font-weight:900;color:#e6c074;margin:0;">{{ formatSAR(kpiMonthlySummary.atv) }}</p>
               </div>
               <div class="kpi-stat" style="border-color:#243356;">
                 <p style="font-size:11px;color:#94a3b8;margin:0 0 6px;">{{ t('kpi.month.invoices') }}</p>
@@ -902,11 +902,11 @@
                   <tr v-for="d in kpiDailyTrend" :key="d.date" :style="{borderBottom:'1px solid rgba(36,51,86,.5)', background: d.date === selectedDate ? 'rgba(212,168,75,.1)' : 'transparent'}">
                     <td style="padding:10px;font-size:12px;color:#fff;font-weight:600;">{{ d.date.slice(5) }}</td>
                     <td style="padding:10px;font-size:12px;color:#94a3b8;">{{ d.dayName }}</td>
-                    <td style="padding:10px;font-weight:700;color:#34d399;">{{ formatNum(d.sales) }}</td>
+                    <td style="padding:10px;font-weight:700;color:#34d399;">{{ formatSAR(d.sales) }}</td>
                     <td style="padding:10px;color:#93c5fd;">{{ formatNum(d.invoices) }}</td>
                     <td style="padding:10px;color:#c4b5fd;">{{ formatNum(d.pieces) }}</td>
                     <td style="padding:10px;font-weight:900;color:#93c5fd;font-size:15px;">{{ d.upt.toFixed(2) }}</td>
-                    <td style="padding:10px;font-weight:900;color:#e6c074;font-size:15px;">{{ formatNum(d.atv) }}</td>
+                    <td style="padding:10px;font-weight:900;color:#e6c074;font-size:15px;">{{ formatSAR(d.atv) }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -931,8 +931,8 @@
                     </div>
                   </div>
                   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;font-size:11px;margin-top:6px;">
-                    <div><p style="color:#94a3b8;margin:0;">{{ t('kpi.rank.sales') }}</p><p style="color:#fff;font-weight:700;margin:2px 0 0;">{{ formatNum(emp.sales) }}</p></div>
-                    <div><p style="color:#94a3b8;margin:0;">{{ t('kpi.rank.target') }}</p><p style="color:#60a5fa;font-weight:700;margin:2px 0 0;">{{ formatNum(emp.target) }}</p></div>
+                    <div><p style="color:#94a3b8;margin:0;">{{ t('kpi.rank.sales') }}</p><p style="color:#fff;font-weight:700;margin:2px 0 0;">{{ formatSAR(emp.sales) }}</p>/div>
+                    <div><p style="color:#94a3b8;margin:0;">{{ t('kpi.rank.target') }}</p><p style="color:#60a5fa;font-weight:700;margin:2px 0 0;">{{ formatSAR(emp.target) }}</p></div>
                   </div>
                   <div class="progress-bar" style="margin-top:8px;"><div class="progress-bar-fill" :style="{width: Math.min(emp.pct,100)+'%', background: emp.pct>=100 ? '#10b981' : emp.pct>=70 ? '#f59e0b' : '#ef4444'}"></div></div>
                 </div>
@@ -974,8 +974,8 @@
                         </div>
                       </div>
                     </td>
-                    <td style="padding:10px;font-weight:700;color:#34d399;">{{ formatNum(emp.sales) }}</td>
-                    <td style="padding:10px;color:#60a5fa;">{{ formatNum(emp.target) }}</td>
+                    <td style="padding:10px;font-weight:700;color:#34d399;">{{ formatSAR(emp.sales) }}</td>
+                    <td style="padding:10px;color:#60a5fa;">{{ formatSAR(emp.target) }}</td>
                     <td style="padding:10px;color:#fff;">{{ emp.daysWorked }}</td>
                     <td style="padding:10px;"><span :style="{fontSize:'12px',fontWeight:'bold',padding:'4px 10px',borderRadius:'6px',background: emp.pct>=100 ? 'rgba(16,185,129,.2)' : emp.pct>=70 ? 'rgba(245,158,11,.2)' : 'rgba(244,63,94,.2)', color: emp.pct>=100 ? '#6ee7b7' : emp.pct>=70 ? '#fcd34d' : '#fda4af'}">{{ emp.pct.toFixed(0) }}%</span></td>
                   </tr>
