@@ -11,6 +11,7 @@
 
 
 \## 📦 الإصدارات
+✅ Auto-deploy test - working
 
 
 
