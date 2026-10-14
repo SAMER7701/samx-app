@@ -5430,6 +5430,8 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
       this.applyLanguageAttributes();
       this.checkSetupWizard();
       this.loadBranding();
+            // ⭐ v23.12-FIX: تفعيل Custom Chart Plugins (كانت مفقودة)
+      this.registerChartPlugins();
 
       this._autoThemeCheck = setInterval(() => this.checkAutoTheme(), 10 * 60 * 1000);
 
