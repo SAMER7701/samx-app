@@ -2537,6 +2537,26 @@ this.settings = {
       this.showToast(this.t('users.toast.deleted'), 'success');
       this.logActivity(this.t('log.user.delete'), u.username);
     },
+    editUser(u) {
+      this.editingUser = u.id;
+      this.userForm = {
+        fullName: u.fullName,
+        username: u.username,
+        password: '',
+        role: u.role,
+        branchId: u.branchId || '',
+        permissions: { ...DEFAULT_PERMISSIONS, ...(u.permissions || {}) },
+      };
+      this.userError = '';
+    },
+    cancelUserEdit() {
+      this.editingUser = null;
+      this.userForm = {
+        fullName: '', username: '', password: '', role: 'manager',
+        branchId: '', permissions: { ...DEFAULT_PERMISSIONS },
+      };
+      this.userError = '';
+    },
     // ================================================================
     //  Attendance
     // ================================================================
