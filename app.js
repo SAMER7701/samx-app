@@ -4672,15 +4672,16 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
             const cellAddr = XLSX.utils.encode_cell({ r: R, c: C });
             if (!ws[cellAddr]) ws[cellAddr] = { v: '', t: 's' };
 
-            if (R === 1 && C >= 2 && C <= 5) ws[cellAddr].s = styles.title;
-            else if (R === 2 && C >= 2 && C <= 5) {
+            if (R === 1 && C >= 2 && C <= 5) {
+              ws[cellAddr].s = styles.title;
+            } else if (R === 2 && C >= 2 && C <= 5) {
               ws[cellAddr].s = {
                 font: { sz: 11, color: { rgb: '0B1220' }, name: 'Calibri' },
                 alignment: { horizontal: 'center', vertical: 'center' },
                 fill: { fgColor: { rgb: 'F3F4F6' } },
               };
             } else if (R >= 4 && R <= 8) {
-            ws[cellAddr].s = {
+              ws[cellAddr].s = {
                 font: { bold: true, sz: 11, color: { rgb: '0B1220' }, name: 'Calibri' },
                 alignment: { horizontal: 'center', vertical: 'center' },
                 fill: { fgColor: { rgb: R % 2 === 0 ? 'FEF9E7' : 'FFFFFF' } },
@@ -4691,15 +4692,13 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
                   right: { style: 'thin', color: { rgb: 'D4A84B' } },
                 },
               };
-              // ⭐ v23.12: رمز الريال للخلايا المالية (وليس الأعداد أو النسب)
-              if (C === 2 || C === 5 || C === 4) {
+              // ⭐ v23.12: رمز الريال للخلايا المالية (KPI rows)
+              if (C === 2 || C === 4 || C === 5) {
                 ws[cellAddr].z = '#,##0 "⃁"';
               } else if (C === 6) {
                 ws[cellAddr].z = '0.0%';
               }
-            } else if (R === headerRowIdx) {: { rgb: 'F3F4F6' } },
-              };
-            
+            } else if (R === headerRowIdx) {
               ws[cellAddr].s = styles.header;
             } else if (R > headerRowIdx && R < totalRowIdx) {
               const col = C;
@@ -4707,20 +4706,20 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
                 const pct = (ws[cellAddr].v || 0) * 100;
                 ws[cellAddr].s = this.getPctStyle(pct);
                 ws[cellAddr].z = '0.0%';
-                  } else if (col === 4 || col === 5 || col === 6) {
+              } else if (col === 4 || col === 5 || col === 6) {
                 ws[cellAddr].s = styles.number;
                 // ⭐ v23.12: رمز الريال لخلايا المبيعات والتارجت
                 ws[cellAddr].z = '#,##0 "⃁"';
               } else {
                 ws[cellAddr].s = col === 1 || col === 2 ? styles.cellRight : styles.cell;
               }
-              } else if (R === totalRowIdx) {
+            } else if (R === totalRowIdx) {
               ws[cellAddr].s = styles.total;
               if (C === 7 || C === 8) ws[cellAddr].z = '0.0%';
               else if (C >= 4 && C <= 6) ws[cellAddr].z = '#,##0 "⃁"';
             }
+           }
           }
-        }
 
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, this.t('excel.daily.sheetName'));
