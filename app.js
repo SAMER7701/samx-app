@@ -4680,7 +4680,7 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
                 alignment: { horizontal: 'center', vertical: 'center' },
                 fill: { fgColor: { rgb: 'F3F4F6' } },
               };
-            } else if (R >= 4 && R <= 8) {
+                        } else if (R >= 4 && R <= 8) {
               ws[cellAddr].s = {
                 font: { bold: true, sz: 11, color: { rgb: '0B1220' }, name: 'Calibri' },
                 alignment: { horizontal: 'center', vertical: 'center' },
@@ -4692,12 +4692,25 @@ nextTick(() => this.renderMonthlyChart());   // ⭐ v23.9-FIX
                   right: { style: 'thin', color: { rgb: 'D4A84B' } },
                 },
               };
-              // ⭐ v23.12: رمز الريال للخلايا المالية (KPI rows)
-              if (C === 2 || C === 4 || C === 5) {
-                ws[cellAddr].z = '#,##0 "⃁"';
-              } else if (C === 6) {
-                ws[cellAddr].z = '0.0%';
+              // ⭐ v23.12-FIX: تنسيق رقمي حسب نوع البيانات في كل صف
+              if (R === 4) {
+                // صف 5: مبيعات(⃁) + تارجت أساسي(⃁) + نسبة(%)
+                if (C === 2 || C === 5) ws[cellAddr].z = '#,##0 "⃁"';
+                else if (C === 6) ws[cellAddr].z = '0.0%';
+              } else if (R === 5) {
+                // صف 6: تارجت أبطال(⃁) + نسبة أبطال(%)
+                if (C === 2) ws[cellAddr].z = '#,##0 "⃁"';
+                else if (C === 5) ws[cellAddr].z = '0.0%';
+              } else if (R === 6) {
+                // صف 7: فواتير(عدد) + قطع(عدد)
+                if (C === 2 || C === 5) ws[cellAddr].z = '#,##0';
+              } else if (R === 7) {
+                // صف 8: UPT(عشري) + ATV(⃁)
+                if (C === 2) ws[cellAddr].z = '0.00';
+                else if (C === 5) ws[cellAddr].z = '#,##0 "⃁"';
               }
+              // R === 8 (الحضور) — نص، لا تنسيق
+            } else if (R === headerRowIdx) {
             } else if (R === headerRowIdx) {
               ws[cellAddr].s = styles.header;
             } else if (R > headerRowIdx && R < totalRowIdx) {
